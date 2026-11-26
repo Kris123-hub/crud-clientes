@@ -32,9 +32,23 @@ de ejemplo desde `api/db/schema.sql`).
 ├── Dockerfile             # Imagen de la aplicación
 ├── api/
 │   ├── config.php         # Conexión PDO + helpers
+│   ├── clientes.php       # API REST (GET, POST, PUT, DELETE)
 │   └── db/schema.sql      # Tabla clientes + datos de ejemplo
-└── public/                # Frontend (se añade en una funcionalidad siguiente)
+└── public/
+    ├── index.html         # Interfaz del CRUD
+    ├── app.js             # Lógica del frontend (fetch)
+    └── style.css          # Estilos
 ```
+
+## Endpoint
+
+| Método | URL | Descripción |
+| ------ | --- | ----------- |
+| GET | /api/clientes.php | Lista todos los clientes |
+| GET | /api/clientes.php?id=N | Obtiene un cliente por id |
+| POST | /api/clientes.php | Crea un cliente |
+| PUT | /api/clientes.php?id=N | Actualiza un cliente |
+| DELETE | /api/clientes.php?id=N | Elimina un cliente |
 
 ## Git Flow
 
