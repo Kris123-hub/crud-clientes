@@ -97,6 +97,40 @@ input:focus {
 
 .btn-primary:hover { background: var(--primary-dark); }
 
+.btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+}
+
+.btn-ghost:hover { background: var(--bg); }
+
+.hidden { display: none; }
+
+.acciones { white-space: nowrap; }
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    margin: 0 4px 0 0;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn-outline:hover { background: #eef2ff; }
+
+.btn-danger {
+    background: transparent;
+    color: var(--err);
+    border: 1px solid var(--err);
+}
+
+.btn-danger:hover { background: #fdeeee; }
+
 table {
     width: 100%;
     border-collapse: collapse;
