@@ -14,7 +14,7 @@
         </header>
 
         <section class="card">
-            <h2>Nuevo cliente</h2>
+            <h2 id="titulo-form">Nuevo cliente</h2>
             <form id="form-cliente">
                 <div class="grid">
                     <label>
@@ -34,7 +34,8 @@
                         <input type="text" id="ciudad" name="ciudad">
                     </label>
                 </div>
-                <button type="submit" class="btn btn-primary">Crear cliente</button>
+                <button type="submit" id="btn-guardar" class="btn btn-primary">Crear cliente</button>
+                <button type="button" id="btn-cancelar" class="btn btn-ghost hidden">Cancelar</button>
             </form>
             <p id="form-mensaje" class="mensaje" role="status"></p>
         </section>
@@ -50,6 +51,7 @@
                         <th>Teléfono</th>
                         <th>Ciudad</th>
                         <th>Registrado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
