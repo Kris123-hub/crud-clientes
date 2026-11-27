@@ -18,6 +18,69 @@ function campos() {
     };
 }
 
+function setCampoError(campo, text) {
+    const err = document.getElementById('err-' + campo);
+    const input = document.getElementById(campo);
+    err.textContent = text || '';
+    input.classList.toggle('invalido', Boolean(text));
+}
+
+function limpiarErrores() {
+    ['nombre', 'email', 'telefono', 'ciudad'].forEach(c => setCampoError(c, ''));
+}
+
+function validacionLocal(data) {
+    limpiarErrores();
+    let ok = true;
+
+    if (!data.nombre.trim()) {
+        setCampoError('nombre', 'El nombre es obligatorio.');
+        ok = false;
+    } else if (data.nombre.trim().length > 100) {
+        setCampoError('nombre', 'El nombre no puede superar los 100 caracteres.');
+        ok = false;
+    }
+
+    const email = data.email.trim();
+    if (!email) {
+        setCampoError('email', 'El email es obligatorio.');
+        ok = false;
+    } else if (email.length > 150) {
+        setCampoError('email', 'El email no puede superar los 150 caracteres.');
+        ok = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setCampoError('email', 'El email no es válido.');
+        ok = false;
+    }
+
+    if (data.telefono.trim().length > 20) {
+        setCampoError('telefono', 'El teléfono no puede superar los 20 caracteres.');
+        ok = false;
+    }
+
+    if (data.ciudad.trim().length > 100) {
+        setCampoError('ciudad', 'La ciudad no puede superar los 100 caracteres.');
+        ok = false;
+    }
+
+    return ok;
+}
+
+function mostrarErroresServidor(error) {
+    if (typeof error === 'string') {
+        mensaje.textContent = error;
+        mensaje.className = 'mensaje error';
+        return;
+    }
+
+    limpiarErrores();
+    for (const campo of Object.keys(error)) {
+        setCampoError(campo, error[campo]);
+    }
+    mensaje.textContent = 'Revisa los campos marcados.';
+    mensaje.className = 'mensaje error';
+}
+
 function formatFecha(value) {
     if (!value) return '';
     const d = new Date(value);
@@ -81,6 +144,7 @@ async function listarClientes() {
 function resetForm() {
     idEnEdicion = null;
     form.reset();
+    limpiarErrores();
     tituloForm.textContent = 'Nuevo cliente';
     btnGuardar.textContent = 'Crear cliente';
     btnCancelar.classList.add('hidden');
@@ -97,6 +161,7 @@ function editarCliente(c) {
     tituloForm.textContent = 'Editando cliente #' + c.id;
     btnGuardar.textContent = 'Guardar cambios';
     btnCancelar.classList.remove('hidden');
+    limpiarErrores();
     mensaje.textContent = '';
     mensaje.className = 'mensaje';
 }
@@ -106,6 +171,10 @@ async function guardarCliente(evento) {
     mensaje.textContent = '';
 
     const payload = campos();
+    if (!validacionLocal(payload)) {
+        return;
+    }
+
     let res;
 
     if (idEnEdicion === null) {
@@ -130,8 +199,7 @@ async function guardarCliente(evento) {
         mensaje.className = 'mensaje ok';
         await listarClientes();
     } else {
-        mensaje.textContent = json.error;
-        mensaje.className = 'mensaje error';
+        mostrarErroresServidor(json.error);
     }
 }
 

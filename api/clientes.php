@@ -13,6 +13,46 @@ declare(strict_types=1);
 
 require __DIR__ . '/config.php';
 
+/**
+ * Validate customer input fields.
+ *
+ * Returns an empty array when the payload is valid, or a map of
+ * field => error message when it is not.
+ */
+function validate_cliente(array $body): array
+{
+    $errors = [];
+
+    $nombre = trim((string) ($body['nombre'] ?? ''));
+    $email = trim((string) ($body['email'] ?? ''));
+    $telefono = trim((string) ($body['telefono'] ?? ''));
+    $ciudad = trim((string) ($body['ciudad'] ?? ''));
+
+    if ($nombre === '') {
+        $errors['nombre'] = 'El nombre es obligatorio.';
+    } elseif (strlen($nombre) > 100) {
+        $errors['nombre'] = 'El nombre no puede superar los 100 caracteres.';
+    }
+
+    if ($email === '') {
+        $errors['email'] = 'El email es obligatorio.';
+    } elseif (strlen($email) > 150) {
+        $errors['email'] = 'El email no puede superar los 150 caracteres.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'El email no es válido.';
+    }
+
+    if ($telefono !== '' && strlen($telefono) > 20) {
+        $errors['telefono'] = 'El teléfono no puede superar los 20 caracteres.';
+    }
+
+    if ($ciudad !== '' && strlen($ciudad) > 100) {
+        $errors['ciudad'] = 'La ciudad no puede superar los 100 caracteres.';
+    }
+
+    return $errors;
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
@@ -37,14 +77,15 @@ try {
         case 'POST':
             $body = read_json_body();
 
+            $errors = validate_cliente($body);
+            if ($errors !== []) {
+                json_response(422, ['ok' => false, 'error' => $errors]);
+            }
+
             $nombre = trim((string) ($body['nombre'] ?? ''));
             $email = trim((string) ($body['email'] ?? ''));
             $telefono = trim((string) ($body['telefono'] ?? ''));
             $ciudad = trim((string) ($body['ciudad'] ?? ''));
-
-            if ($nombre === '' || $email === '') {
-                json_response(400, ['ok' => false, 'error' => 'Los campos nombre y email son obligatorios.']);
-            }
 
             $stmt = $pdo->prepare(
                 'INSERT INTO clientes (nombre, email, telefono, ciudad)
@@ -82,14 +123,15 @@ try {
 
             $body = read_json_body();
 
+            $errors = validate_cliente($body);
+            if ($errors !== []) {
+                json_response(422, ['ok' => false, 'error' => $errors]);
+            }
+
             $nombre = trim((string) ($body['nombre'] ?? ''));
             $email = trim((string) ($body['email'] ?? ''));
             $telefono = trim((string) ($body['telefono'] ?? ''));
             $ciudad = trim((string) ($body['ciudad'] ?? ''));
-
-            if ($nombre === '' || $email === '') {
-                json_response(400, ['ok' => false, 'error' => 'Los campos nombre y email son obligatorios.']);
-            }
 
             $upd = $pdo->prepare(
                 'UPDATE clientes
