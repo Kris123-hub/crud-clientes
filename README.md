@@ -68,3 +68,9 @@ Este repositorio se maneja con Git Flow:
 - `dev`: integración de las ramas de trabajo.
 - `feature/*`: nuevas funcionalidades (se integran a `dev`, luego `qa`, luego `main`).
 - `hotfix/*`: correcciones urgentes sobre `main`.
+
+Histórico de hotfixes:
+
+- `hotfix/fix-date-format`: la columna "Registrado" mostraba *Invalid Date* en
+  algunos navegadores porque el formato de MySQL (`YYYY-MM-DD HH:MM:SS`) no es
+  ISO 8601; el frontend ahora normaliza la fecha antes de parsearla.
