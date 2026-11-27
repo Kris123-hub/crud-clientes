@@ -83,7 +83,12 @@ function mostrarErroresServidor(error) {
 
 function formatFecha(value) {
     if (!value) return '';
-    const d = new Date(value);
+    // MySQL returns dates as "YYYY-MM-DD HH:MM:SS". The space separator is
+    // not ISO 8601 and browsers like Safari fail to parse it (Invalid Date).
+    const d = new Date(String(value).replace(' ', 'T'));
+    if (Number.isNaN(d.getTime())) {
+        return value;
+    }
     return d.toLocaleString('es-PE', {
         day: '2-digit',
         month: '2-digit',
