@@ -50,6 +50,15 @@ de ejemplo desde `api/db/schema.sql`).
 | PUT | /api/clientes.php?id=N | Actualiza un cliente |
 | DELETE | /api/clientes.php?id=N | Elimina un cliente |
 
+### Validación
+
+`POST` y `PUT` validan los datos antes de escribirlos:
+
+- `nombre` (obligatorio, máx. 100 caracteres) y `email` (obligatorio, formato válido, máx. 150 caracteres).
+- `telefono` (opcional, máx. 20 caracteres) y `ciudad` (opcional, máx. 100 caracteres).
+
+Un payload inválido devuelve `422` con un objeto `error` que contiene un mensaje por cada campo inválido, y la interfaz los muestra bajo cada campo.
+
 ## Git Flow
 
 Este repositorio se maneja con Git Flow:
