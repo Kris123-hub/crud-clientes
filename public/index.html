@@ -19,19 +19,23 @@
                 <div class="grid">
                     <label>
                         Nombre *
-                        <input type="text" id="nombre" name="nombre" required>
+                        <input type="text" id="nombre" name="nombre" maxlength="100">
+                        <small class="campo-err" id="err-nombre"></small>
                     </label>
                     <label>
                         Email *
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" maxlength="150">
+                        <small class="campo-err" id="err-email"></small>
                     </label>
                     <label>
                         Teléfono
-                        <input type="text" id="telefono" name="telefono">
+                        <input type="text" id="telefono" name="telefono" maxlength="20">
+                        <small class="campo-err" id="err-telefono"></small>
                     </label>
                     <label>
                         Ciudad
-                        <input type="text" id="ciudad" name="ciudad">
+                        <input type="text" id="ciudad" name="ciudad" maxlength="100">
+                        <small class="campo-err" id="err-ciudad"></small>
                     </label>
                 </div>
                 <button type="submit" id="btn-guardar" class="btn btn-primary">Crear cliente</button>

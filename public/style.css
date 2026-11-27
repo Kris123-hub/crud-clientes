@@ -107,6 +107,18 @@ input:focus {
 
 .hidden { display: none; }
 
+.campo-err {
+    display: block;
+    min-height: 1em;
+    color: var(--err);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+input.invalido {
+    border-color: var(--err);
+}
+
 .acciones { white-space: nowrap; }
 
 .btn-sm {
